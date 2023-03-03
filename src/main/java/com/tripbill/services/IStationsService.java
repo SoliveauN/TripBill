@@ -8,11 +8,9 @@ import java.util.Optional;
  *
  * Interface for interactions with ZoneStationsEnum
  */
-public interface IStationService {
+public interface IStationsService {
 
 	public List<Integer> findZonesByStation(String theStation);
-	
-	public List<String> findStationsByZone(Integer theIdZone);
 	
 	public Optional<Integer> identifyZoneByListZoneAndStation(List<Integer> theListZones, String theStation);
 }

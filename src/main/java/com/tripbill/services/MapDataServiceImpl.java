@@ -20,7 +20,7 @@ import com.tripbill.enums.BillTripEnum;
  */
 public class MapDataServiceImpl implements IMapDataService{
 
-	static IStationService stationService = new StationsServiceImpl();
+	static IStationsService stationsService = new StationsServiceImpl();
 	static IBillTripService billTripService = new BillTripServiceImpl();
 	
 	/**
@@ -84,17 +84,17 @@ public class MapDataServiceImpl implements IMapDataService{
 		trip.setStationEnd(theSecondTap.getStation());
 		trip.setStartedJourneyAt(theFirstTap.getUnixTimestamp());
 			
-		List<Integer> zonesStart = stationService.findZonesByStation(theFirstTap.getStation());
-		List<Integer> zonesEnd = stationService.findZonesByStation(theSecondTap.getStation());
+		List<Integer> zonesStart = stationsService.findZonesByStation(theFirstTap.getStation());
+		List<Integer> zonesEnd = stationsService.findZonesByStation(theSecondTap.getStation());
 		
 		Optional<BillTripEnum> optLowestBillTrip = billTripService.findBillTripFromZones(zonesStart, zonesEnd);
 		
 		if(optLowestBillTrip.isPresent()){
 			BillTripEnum lowestBillTrip = optLowestBillTrip.get();
-			stationService.identifyZoneByListZoneAndStation(lowestBillTrip.getIdZoneFrom(),theFirstTap.getStation());
+			stationsService.identifyZoneByListZoneAndStation(lowestBillTrip.getIdZoneFrom(),theFirstTap.getStation());
 			
-			Optional<Integer> zoneFrom = stationService.identifyZoneByListZoneAndStation(lowestBillTrip.getIdZoneFrom(),theFirstTap.getStation());
-			Optional<Integer> zoneTo = stationService.identifyZoneByListZoneAndStation(lowestBillTrip.getIdZoneTo(),theSecondTap.getStation());
+			Optional<Integer> zoneFrom = stationsService.identifyZoneByListZoneAndStation(lowestBillTrip.getIdZoneFrom(),theFirstTap.getStation());
+			Optional<Integer> zoneTo = stationsService.identifyZoneByListZoneAndStation(lowestBillTrip.getIdZoneTo(),theSecondTap.getStation());
 			
 			trip.setZoneFrom(zoneFrom.isPresent() ? zoneFrom.get() : 0);
 			trip.setZoneTo(zoneTo.isPresent() ? zoneTo.get() : 0);

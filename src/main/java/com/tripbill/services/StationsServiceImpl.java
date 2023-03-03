@@ -12,7 +12,7 @@ import com.tripbill.enums.ZoneStationsEnum;
  *
  * Service Class that has specific use with ZoneStationsEnum
  */
-public class StationsServiceImpl implements IStationService{
+public class StationsServiceImpl implements IStationsService{
 
 	/**
 	 * Find the zones that the given station is in
@@ -27,15 +27,6 @@ public class StationsServiceImpl implements IStationService{
 				.collect(Collectors.toList());
 	}
 	
-	/**
-	 * Find the stations in the given zone
-	 * @param Integer idZone
-	 * @return List<String>
-	 */
-	@Override
-	public List<String> findStationsByZone(Integer theIdZone) {
-		return ZoneStationsEnum.valueOf(String.valueOf(theIdZone)).getStationList();
-	}
 	
 	/**
 	 * Identify the zone based on the given station and zones(From BillTripEnum)
@@ -44,10 +35,12 @@ public class StationsServiceImpl implements IStationService{
 	 */
 	@Override
 	public Optional<Integer> identifyZoneByListZoneAndStation(List<Integer> theListZones, String theStation) {
-		return theListZones.stream()
+		return theListZones != null ?
+				theListZones.stream()
 			.filter(lz -> findZonesByStation(theStation).stream()
 			      .anyMatch(zs -> lz == zs))
-			.findAny();
+			.findAny()
+			:Optional.empty();
 	}
 
 }

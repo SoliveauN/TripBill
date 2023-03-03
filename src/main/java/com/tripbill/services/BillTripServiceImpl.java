@@ -26,12 +26,13 @@ public class BillTripServiceImpl implements IBillTripService{
 	@Override
 	public Optional<BillTripEnum> findBillTripFromZones(List<Integer> theZoneStart, List<Integer> theZoneEnd) {
 
-		return Arrays.stream(BillTripEnum.values())
+		return theZoneStart != null && theZoneEnd != null ? Arrays.stream(BillTripEnum.values())
 			.filter(bl -> theZoneStart.stream()
 			      .anyMatch(zs -> bl.getIdZoneFrom().contains(zs)))
 			.filter(bl -> theZoneEnd.stream()
 				   .anyMatch(ze -> bl.getIdZoneTo().contains(ze)))
-			.min(Comparator.comparing(BillTripEnum::getPriceOfTrip));
+			.min(Comparator.comparing(BillTripEnum::getPriceOfTrip))
+			: Optional.empty();
 		
 	}
 
