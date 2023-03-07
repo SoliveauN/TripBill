@@ -24,7 +24,7 @@ public class Tap {
 	public Integer getUnixTimestamp() {
 		return unixTimestamp;
 	}
-	public void setLocalDateTime(Integer theUnixTimestamp) {
+	public void setUnixTimestamp(Integer theUnixTimestamp) {
 		this.unixTimestamp = theUnixTimestamp;
 	}
 	public Integer getCustomerId() {

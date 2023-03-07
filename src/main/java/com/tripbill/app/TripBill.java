@@ -37,13 +37,22 @@ public class TripBill {
 				taps = fileDataService.importDataJSONFormat(args[0]);
 				System.out.println("----- Mapping Data -----");
 				Map<Integer, List<Tap>> orderedTaps = mapDataService.orderTapByCustomerId(taps);
-
+				if(orderedTaps == null || orderedTaps.isEmpty()) {
+					System.err.println("----- No Data Provided -----");
+					exitingProgramDueToError();
+				}
 				System.out.println("----- Generate trips for each customer -----");
 				Map<Integer, List<Trip>> listTripByCustomer = mapDataService.generateValuableTrips(orderedTaps);
-
+				if(listTripByCustomer == null || listTripByCustomer.isEmpty()) {
+					System.err.println("----- No Trip To Bill -----");
+					exitingProgramDueToError();
+				}
 				System.out.println("----- Calculating bills for customers -----");
 				CustomerSummaries customerSummaries = calculateBillService.calculateBillFromInput(listTripByCustomer);
-
+				if(customerSummaries == null) {
+					System.err.println("----- No Summaries to export -----");
+					exitingProgramDueToError();
+				}
 				System.out.println("----- Exporting data at "+args[1]+" -----");
 				fileDataService.exportDataJSONFormat(customerSummaries,args[1]);
 
@@ -71,9 +80,12 @@ public class TripBill {
 			else {
 				System.err.println("Less than 2 Paths given. You have to give only 2 Paths.");
 			}
-			System.out.println("----- Exiting the program ! -----");
-			System.exit(1);
+			exitingProgramDueToError();
 		}
+	}
+	private static void exitingProgramDueToError() {
+		System.out.println("----- Exiting the program ! -----");
+		System.exit(1);
 	}
 
 }
