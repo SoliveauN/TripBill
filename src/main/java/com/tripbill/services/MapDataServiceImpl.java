@@ -31,14 +31,12 @@ public class MapDataServiceImpl implements IMapDataService{
 	@Override
 	public Map<Integer, List<Tap>> orderTapByCustomerId(Taps theTaps) {
 		
-		List<Tap> listTaps = theTaps.getTaps().stream()
+		return theTaps != null && theTaps.getTaps() != null ?
+				theTaps.getTaps().stream()
 				.sorted(Comparator.comparing(Tap::getCustomerId))
-				.collect(Collectors.toList());
-		
-		return listTaps
-               .stream()
-               .collect(Collectors.groupingBy(Tap::getCustomerId,
-                   Collectors.mapping(t -> t,Collectors.toList())));
+				.collect(Collectors.groupingBy(Tap::getCustomerId,
+						Collectors.mapping(t -> t,Collectors.toList())))
+				: new HashMap<Integer, List<Tap>>();
 	}
 	
 	/**
