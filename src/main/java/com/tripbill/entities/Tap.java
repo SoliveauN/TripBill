@@ -1,4 +1,5 @@
 package com.tripbill.entities;
+
 /**
  * @author nsoliveau
  *
@@ -37,5 +38,19 @@ public class Tap {
 	}
 	public void setStation(String theStation) {
 		this.station = theStation;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof Tap) {
+			Tap tapObject = (Tap) o;
+			if(tapObject.getUnixTimestamp() != this.unixTimestamp)
+				return false;
+			if(tapObject.getCustomerId() != this.customerId)
+				return false;
+			if(!tapObject.getStation().equals(this.station))
+				return false;
+		}
+		return true;
 	}
 }
