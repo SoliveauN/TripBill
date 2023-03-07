@@ -1,0 +1,39 @@
+{
+  "taps" : [ {
+    "unixTimestamp" : 1,
+    "customerId" : 1,
+    "station" : "A"
+  }, {
+    "unixTimestamp" : 2,
+    "customerId" : 1,
+    "station" : "D"
+  }, {
+    "unixTimestamp" : 2,
+    "customerId" : 2,
+    "station" : "B"
+  }, {
+    "unixTimestamp" : 3,
+    "customerId" : 2,
+    "station" : "C"
+  }, {
+    "unixTimestamp" : 3,
+    "customerId" : 3,
+    "station" : "H"
+  }, {
+    "unixTimestamp" : 10,
+    "customerId" : 2,
+    "station" : "G"
+  }, {
+    "unixTimestamp" : 27,
+    "customerId" : 3,
+    "station" : "E"
+  }, {
+    "unixTimestamp" : 41,
+    "customerId" : 4,
+    "station" : "A"
+  }, {
+    "unixTimestamp" : 47,
+    "customerId" : 4,
+    "station" : "I"
+  } ]
+}

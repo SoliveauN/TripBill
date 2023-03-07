@@ -62,7 +62,14 @@ public class MapDataServiceImpl implements IMapDataService{
 			for(int i = 0; i < listTapForCustomer.size();i+=2) {
 				
 				List<Trip> listTripTemp = tripsByCustomer.get(set.getKey());
-				listTripTemp.add(generateTrip(listTapForCustomer.get(i), listTapForCustomer.get(i+1)));
+				
+				Tap secondTap = null;
+				if(i+1 < listTapForCustomer.size()) {
+					secondTap = listTapForCustomer.get(i+1);
+				}else {
+					System.out.println("No second Tap for customerId " + set.getKey() + " from first Tap at " + listTapForCustomer.get(i).getStation() + " station.");
+				}
+				listTripTemp.add(generateTrip(listTapForCustomer.get(i), secondTap));
 				
 				tripsByCustomer.put(set.getKey(),listTripTemp);
 			}
@@ -77,26 +84,29 @@ public class MapDataServiceImpl implements IMapDataService{
 	@Override
 	public Trip generateTrip(Tap theFirstTap, Tap theSecondTap) {
 		Trip trip = new Trip();
-		
+
 		trip.setStationStart(theFirstTap.getStation());
-		trip.setStationEnd(theSecondTap.getStation());
 		trip.setStartedJourneyAt(theFirstTap.getUnixTimestamp());
-			
-		List<Integer> zonesStart = stationsService.findZonesByStation(theFirstTap.getStation());
-		List<Integer> zonesEnd = stationsService.findZonesByStation(theSecondTap.getStation());
 		
-		Optional<BillTripEnum> optLowestBillTrip = billTripService.findBillTripFromZones(zonesStart, zonesEnd);
-		
-		if(optLowestBillTrip.isPresent()){
-			BillTripEnum lowestBillTrip = optLowestBillTrip.get();
-			stationsService.identifyZoneByListZoneAndStation(lowestBillTrip.getIdZoneFrom(),theFirstTap.getStation());
+		if(theSecondTap != null) {
+			trip.setStationEnd(theSecondTap.getStation());
+				
+			List<Integer> zonesStart = stationsService.findZonesByStation(theFirstTap.getStation());
+			List<Integer> zonesEnd = stationsService.findZonesByStation(theSecondTap.getStation());
 			
-			Optional<Integer> zoneFrom = stationsService.identifyZoneByListZoneAndStation(lowestBillTrip.getIdZoneFrom(),theFirstTap.getStation());
-			Optional<Integer> zoneTo = stationsService.identifyZoneByListZoneAndStation(lowestBillTrip.getIdZoneTo(),theSecondTap.getStation());
+			Optional<BillTripEnum> optLowestBillTrip = billTripService.findBillTripFromZones(zonesStart, zonesEnd);
 			
-			trip.setZoneFrom(zoneFrom.isPresent() ? zoneFrom.get() : 0);
-			trip.setZoneTo(zoneTo.isPresent() ? zoneTo.get() : 0);
-			trip.setCostInCents(lowestBillTrip.getPriceOfTrip());
+			if(optLowestBillTrip.isPresent()){
+				BillTripEnum lowestBillTrip = optLowestBillTrip.get();
+				stationsService.identifyZoneByListZoneAndStation(lowestBillTrip.getIdZoneFrom(),theFirstTap.getStation());
+				
+				Optional<Integer> zoneFrom = stationsService.identifyZoneByListZoneAndStation(lowestBillTrip.getIdZoneFrom(),theFirstTap.getStation());
+				Optional<Integer> zoneTo = stationsService.identifyZoneByListZoneAndStation(lowestBillTrip.getIdZoneTo(),theSecondTap.getStation());
+				
+				trip.setZoneFrom(zoneFrom.isPresent() ? zoneFrom.get() : 0);
+				trip.setZoneTo(zoneTo.isPresent() ? zoneTo.get() : 0);
+				trip.setCostInCents(lowestBillTrip.getPriceOfTrip());
+			}
 		}
 		return trip;
 	}

@@ -75,4 +75,24 @@ public class Trip {
 	public void setZoneTo(Integer zoneTo) {
 		this.zoneTo = zoneTo;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof Trip) {
+			Trip tripObject = (Trip) o;
+			if(tripObject.getStationStart() != null && !tripObject.getStationStart().equals(this.stationStart))
+				return false;
+			if(tripObject.getStationEnd() != null && !tripObject.getStationEnd().equals(this.stationEnd))
+				return false;
+			if(tripObject.getStartedJourneyAt() != this.startedJourneyAt)
+				return false;
+			if(tripObject.getCostInCents() != null && !tripObject.getCostInCents().equals(this.costInCents))
+				return false;
+			if(tripObject.getZoneFrom() != null && !tripObject.getZoneFrom().equals(this.zoneFrom))
+				return false;
+			if(tripObject.getZoneTo() != null && !tripObject.getZoneTo().equals(this.zoneTo))
+				return false;
+		}
+		return true;
+	}
 }
