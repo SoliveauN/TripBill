@@ -53,6 +53,8 @@ public class TripBill {
 					System.err.println("----- No Summaries to export -----");
 					exitingProgramDueToError();
 				}
+				calculateBillService.check10EurosGap(customerSummaries);
+				
 				System.out.println("----- Exporting data at "+args[1]+" -----");
 				fileDataService.exportDataJSONFormat(customerSummaries,args[1]);
 

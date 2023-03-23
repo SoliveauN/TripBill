@@ -10,6 +10,10 @@ import java.util.List;
 public class CustomerSummaries {
 
 	private List<CustomerSummary> customerSummaries;
+	
+	public CustomerSummaries() {
+		super();
+	}
 
 	public CustomerSummaries(List<CustomerSummary> customerSummaries) {
 		this.customerSummaries = customerSummaries;
@@ -23,4 +27,14 @@ public class CustomerSummaries {
 		this.customerSummaries = theCustomerSummaries;
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof CustomerSummaries) {
+			CustomerSummaries object = (CustomerSummaries) o;
+			if(!object.getCustomerSummaries().equals(this.getCustomerSummaries())) {
+				return false;
+			}
+		}
+	return true;
+	}
 }

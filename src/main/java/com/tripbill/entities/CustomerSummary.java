@@ -39,4 +39,21 @@ public class CustomerSummary {
 	public void setTrips(List<Trip> theTrips) {
 		this.trips = theTrips;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof CustomerSummary) {
+			CustomerSummary object = (CustomerSummary) o;
+			if(!object.getCustomerId().equals(this.getCustomerId())) {
+				return false;
+			}
+			if(!object.getTotalCostInCents().equals(this.totalCostInCents)) {
+				return false;
+			}
+			if(!object.getTrips().equals(this.getTrips())) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

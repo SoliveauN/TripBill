@@ -15,4 +15,6 @@ public interface ICalculateBillService {
 	
 	public CustomerSummaries calculateBillFromInput(Map<Integer,List<Trip>> listTripByCustomer);
 	
+	public void check10EurosGap(CustomerSummaries customerSummaries);
+	
 }

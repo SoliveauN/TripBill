@@ -36,4 +36,16 @@ public class CalculateBillServiceImpl implements ICalculateBillService{
 						s.getValue()))
 			.collect(Collectors.toList()));
 	}
+
+	@Override
+	public void check10EurosGap(CustomerSummaries customerSummaries) {
+		customerSummaries.getCustomerSummaries().stream()
+			.forEach(cs -> {
+				if(cs.getTotalCostInCents() >= 1000) {
+					cs.setTotalCostInCents(1000);
+				}
+			});
+	}
+	
+	
 }
